@@ -1,3 +1,16 @@
+## Generated files
+
+flottants/flottants.pdf
+integration/integration.pdf
+integration/rectangles.pdf
+integration/rectangles2.pdf
+integration/rectangles_erreur.pdf
+integration/stabilite.pdf
+integration/stabilite2.pdf
+integration/test.pdf
+integration/vecteur1.pdf
+integration/vecteur2.pdf
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
