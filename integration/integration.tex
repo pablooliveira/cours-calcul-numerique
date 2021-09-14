@@ -1,0 +1,471 @@
+% !TeX program = latexmk
+\documentclass{beamer}
+\usepackage{amsmath}
+\usetheme{metropolis}
+\defaultfontfeatures{Ligatures=TeX}
+\usepackage{eulervm}
+\usepackage[gobble=auto]{pythontex}
+\usepackage{pgf}
+
+\begin{pythontexcustomcode}{py}
+    import sys
+
+    import numpy as np
+
+    import matplotlib
+
+    matplotlib.use('pgf') 
+
+    matplotlib.rc('text', usetex=True)
+    matplotlib.rc('font', family='serif')
+    matplotlib.rc('font', size=14.0)
+    matplotlib.rc('font', weight='normal')
+    matplotlib.rc('legend', fontsize=14.0)
+    matplotlib.rc('legend', fontsize=14.0)
+    matplotlib.rc("pgf", texsystem="xelatex")
+    matplotlib.rc("savefig", transparent=True)
+
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.axes_grid1 import make_axes_locatable
+\end{pythontexcustomcode}
+
+
+\metroset{block=fill}
+
+\title{Intégration numérique (Introduction)}
+\author{Pablo de Oliveira (pablo.oliveira@uvsq.fr)}
+\institute{M1 Calcul Haute Performance Simulation, Calcul Numérique}
+\date{2021-2022}
+
+\begin{document}
+\maketitle
+
+\begin{frame}{Sommaire}
+    \tableofcontents
+\end{frame}
+
+\section{Problème de Cauchy}
+\begin{frame}{Problème de Cauchy}
+
+    Équation différentielle du premier ordre
+
+    \begin{equation*}
+        \left\{
+        \begin{array}{l}
+            y' = f(t,y(t))          \\
+            y(t_0) = y_0, t_0 \in I \\
+        \end{array}
+        \right.
+    \end{equation*}
+
+    avec une fonction $f$ définie sur $I \times \mathbb{R}^p \rightarrow \mathbb{R}^p$ où $I$ est un intervalle de $\mathbb{R}$.
+
+    Si $p > 1$ il s'agit d'un système différentiel. Dans la suite on prendra $p = 1$.
+\end{frame}
+
+\begin{frame}{Théorème Cauchy-Lipschitz}
+
+    Le problème de Cauchy \textbf{admet une unique solution $y(t)$} si:
+    \begin{itemize}
+        \item $f(t, y(t))$ est une fonction continue
+        \item $f(t, y(t))$ est Lipschitzienne en $y$, c'est à dire
+              \[ \forall t,y_1,y_2, \exists k > 0, \qquad |f(t,y_1) - f(t,y_2)| \leq k|y_1-y_2| \]
+    \end{itemize}
+    \vfill
+
+    \textbf{Objectif:} Calculer numériquement la solution $y(t)$ sur l'intervalle $t \in [t_0,t_0+T]$
+
+\end{frame}
+
+\begin{frame}{Exemple}
+    \begin{itemize}
+        \item Problème de Cauchy: $ y'=y,\; y(0) = 1$
+
+        \item Solution analytique: $y(t)=e^t$
+
+        \item Methode numérique pour tracer la solution lorsqu'une solution analytique n'est pas connue ?
+    \end{itemize}
+
+\end{frame}
+
+\begin{pycode}
+    T,Y = np.meshgrid(np.linspace(0,2,10),np.linspace(0,5,10))
+    plt.quiver(T,Y,1,Y*2./5., alpha=0.3)
+
+    t = 0.0
+    y = 1.0
+    plt.plot(t,y, "or")
+    plt.savefig("vecteur1.pdf")
+
+    plt.ylim(0,5)
+    te = np.arange(0.0, 2.0, 0.1)
+    plt.plot(te, np.exp(te), '--', lw=3)
+
+    h = 0.25
+    for i in range(8):
+        tp = t + h
+        yp = y + h*y
+        plt.plot([t,tp], [y,yp], lw=3)
+        t = tp
+        y = yp
+    plt.savefig("vecteur2.pdf")
+\end{pycode}
+
+\section{Méthode d'Euler explicite}
+
+\begin{frame}{Exemple}
+
+    \textbf{Idée}: On simule la solution en se déplaçant à partir du point initial avec un \emph{pas d'intégration} $h$.
+
+    \begin{figure}
+        \pgfimage[width=.7\textwidth]{vecteur1.pdf}
+        \caption{Champ vectoriel pour $y'= f(t,y(t)) = y(t)$}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Exemple}
+    \begin{figure}
+        \pgfimage[width=.8\textwidth]{vecteur2.pdf}
+        \caption{$h=0.25$}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}{Intégration numérique}
+    \begin{align*}
+        \int_t^{t+h} y'(t) dt = y(t+h) - y(t)     &                                     \\
+        y(t+h) = y(t) + \int_t^{t+h} f(t,y(t)) dt & \qquad \text{ car } y' = f(t, y(t)) \\
+    \end{align*}
+\end{frame}
+
+\begin{pycode}
+    from matplotlib.patches import Polygon
+
+    f = lambda t: np.sqrt(t)
+
+    plt.clf()
+    fig, ax = plt.subplots()
+    ax.set_ylim([0,2])
+
+    ix = np.linspace(0.5,1)
+    verts = [(0.5, 0), *zip(ix, f(ix)), (1,0)]
+    poly = Polygon(verts, facecolor='0.9', edgecolor='0.5')
+    ax.add_patch(poly)
+
+    te = np.arange(0.0, 2.0, 0.1)
+    ax.plot(te, f(te), lw=3)
+    ax.bar(0.75, height=f(0.5), width=.5)
+
+    ax.text(0.25, f(0.5) , '$f(to)$')
+
+    ax.set_xticks((0.5, 1))
+    ax.set_xticklabels(('$t_0$', '$t_0+h$'))
+    fig.savefig("rectangles.pdf")
+
+    ax.text(0.6, 1.05, "$f'(t_0)$", c="r")
+    ax.arrow(0.5, f(0.5), .5, 0.707*.5, head_width=0.05, lw=2, color="r")
+
+    ax.text(1.1, 0.8, "$h.f'(t_0)$", c="g")
+    fig.savefig("rectangles_erreur.pdf")
+\end{pycode}
+
+\begin{frame}{Méthode des rectangles}
+    On approxime l'aire sous la courbe par un rectangle.
+    \vspace{-.25cm}
+    \begin{figure}
+        \pgfimage[width=.7\textwidth]{rectangles.pdf}
+    \end{figure}
+    \vspace{-.5cm}
+    \begin{align*}
+        y(t_0+h) & =  y(t_0) + \int_{t_0}^{t_0+h} f(t,y(t)) dt \\
+        y(t_0+h) & \simeq  y(t_0) + f(t_0).h                   \\
+    \end{align*}
+\end{frame}
+
+\begin{frame}[fragile]{Méthode d'Euler explicite}
+    \begin{pyblock}
+    def euler(f, y0, t0, h, n):
+        s, y, t = [], y0, t0
+        for i in range(n):
+            y = y + f(y, t) * h
+            t = t + h
+            s.append((t, y))
+        return s
+
+    # application: y' = y
+    f = lambda y, t: y 
+    y0 = 1.0
+    t0 = 0.0
+    h = .25
+    solution = euler(f, y0, t0, h, 7)
+    \end{pyblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{Méthode d'Euler explicite: $y'=y$}
+    \begin{columns}
+
+        \begin{column}{.3\textwidth}
+            \begin{pycode}
+                print(r"\begin{tabular}{c|c|c}")
+                print(r"$i$ & $t$ & $\widetilde{y}$ \\ \hline")
+                for (i,(y,t)) in enumerate(solution):
+                    print(r"%d & %.2f & %f \\" % (i+1, y, t))
+                print(r"\end{tabular}")
+            \end{pycode}
+
+        \end{column}
+        \begin{column}{.7\textwidth}
+            \begin{figure}
+                \pgfimage[width=1.1\textwidth]{vecteur2.pdf}
+                \caption{$h=0.25$}
+            \end{figure}
+
+        \end{column}
+
+    \end{columns}
+\end{frame}
+
+
+\section{Analyse d'erreur et convergence}
+\begin{frame}{Analyse d'erreur pour la méthode itérative}
+    \begin{itemize}
+        \item Soit $y(t)$ la vraie solution du problème de Cauchy.
+        \item Soit $\widetilde{y}_n$ la valeur approchée à l'étape $n$.
+        \item Par exemple pour les premières étape d'Euler explicite,
+              \begin{align*}
+                  \widetilde{y}_1 & = y(t_0) + h.f(t_0, y_0)                                                        \\
+                  \widetilde{y}_2 & = \widetilde{y}_1 + h.f(t_1, \widetilde{y}_1) \qquad \text{ avec } t_1 = t_0+h  \\
+                  \widetilde{y}_3 & = \widetilde{y}_2 + h.f(t_2, \widetilde{y}_2) \qquad \text{ avec } t_2 = t_0+2h \\
+                                  & \ldots
+              \end{align*}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Erreurs locales et globale}
+
+    \begin{itemize}
+        \item Erreur locale (à chaque étape $n$)
+              \[e_n = y(t_n) - \widetilde{y}_n\]
+
+        \item Erreur globale sur l'intervalle $[t_0, t_0+T]$
+              \[ \epsilon(T, h) = \max_{0 \leq n \leq \frac{T}{h}} |e_n| \]
+
+    \end{itemize}
+
+
+\end{frame}
+
+\begin{frame}{Origine des erreurs}
+    \begin{itemize}
+        \item Erreurs de méthode (schéma numérique):
+              \begin{itemize}
+                  \item Erreur locale de troncature: le pas d'intégration est une
+                        approximation au premier ordre de la fonction.
+                  \item À chaque nouvelle étape $f$ est évalué sur $\widetilde{y}_n \neq y(t_n)$.
+                        Il y a un « décalage » du point sur lequel on évalue la dérivée.
+              \end{itemize}
+
+
+        \item Erreurs numériques:
+              \begin{itemize}
+                  \item Dues à l'utilisation de nombres flottants (arrondis, \emph{cancellation}).
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Erreur locale de troncature (interprétation graphique)}
+    \begin{figure}
+        \pgfimage[width=.8\textwidth]{rectangles_erreur.pdf}
+        \caption{Erreur de troncature $\simeq$ \newline Aire du triangle $= \frac{h \times h.f'(t_0)}{2} = \frac{h^2}{2}.f'(t_0)$}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Erreur locale de troncature (développement limité)}
+    \[y(t_0 + h) = \underbrace{y(t_0) + h.f(t_0, y_0)}_{\text{Méthode d'Euler}} + \underbrace{\frac{h^2}{2}.f'(t_0, y_0) + \frac{h^3}{6}.f''(t_0, y_0) + O(h^3)}_{\text{Erreur de troncature}}\]
+\end{frame}
+
+\begin{frame}{Convergence de la méthode}
+    La méthode numérique est convergente si
+    \[\lim_{h \rightarrow 0} \epsilon(h) = \lim_{h \rightarrow 0} \max_{0 \leq n \leq \frac{T}{h}} |e_n| = 0 \]
+
+    C'est à dire, si pour un pas d'intégration qui tends vers 0, l'erreur globale converge aussi vers 0.
+
+\end{frame}
+
+
+\begin{frame}{Convergence de la méthode d'Euler explicite}
+    Pour $f(t,y(t))$ Lipschitzienne en $y$, on montre que la \textbf{méthode d'Euler explicite est convergente}.
+
+    C'est une méthode du premier ordre, car la convergence est linéaire, $\epsilon(h) \sim O(h)$.
+
+    Nous détaillerons la preuve en TD.
+
+\end{frame}
+
+
+\section{Stabilité pour un système linéaire}
+
+\begin{frame}{Étude d'un système linéaire quand $t \rightarrow \infty$}
+    \begin{itemize}
+        \item Pour $\lambda < 0 $, on considère le problème $ y'=\lambda y,\; y(0) = y_0 = 1$
+        \item La solution analytique est: $ y(t) = e^{\lambda t} \xrightarrow[t \rightarrow \infty]{} 0$
+
+        \item Pour-quelles valeurs de $h$ aura t'on $\widetilde{y}_n \xrightarrow[n \rightarrow \infty]{} 0$ ?
+    \end{itemize}
+    \vfill
+    \begin{align*}
+        \widetilde{y}_{n+1} = & \widetilde{y}_n + h\lambda\widetilde{y}_n \\
+        \widetilde{y}_{n+1} = & (1+\lambda h)\widetilde{y}_n              \\
+        \widetilde{y}_{n+1} = & (1+\lambda h)^ny_0                        \\
+    \end{align*}
+
+    Converge si $|1+\lambda h| < 1 \Rightarrow h < -\frac{2}{\lambda}$.
+\end{frame}
+
+\begin{pycode}
+    plt.clf()
+
+    t = 0.0
+    y = 1.0
+    plt.plot(t,y, "or")
+
+    plt.ylim(-1.1,1.1)
+    plt.xlim(0,30)
+
+    te = np.arange(0.0, 30.0, 0.1)
+    plt.plot(te, np.exp(-te), '--', lw=3)
+
+    ts, ys = zip(*euler(lambda y, t: -y, 1.0, 0.0, 2, 30))
+    plt.plot(ts, ys, lw=1, label="$h=2$")
+
+    ts, ys = zip(*euler(lambda y, t: -y, 1.0, 0.0, 1.8, 30))
+    plt.plot(ts, ys, lw=1, label="$h=1.8$")
+
+    ts, ys = zip(*euler(lambda y, t: -y, 1.0, 0.0, 1.5, 30))
+    plt.plot(ts, ys, lw=1, label="$h=1.5$")
+
+    ts, ys = zip(*euler(lambda y, t: -y, 1.0, 0.0, .5, 30))
+    plt.plot(ts, ys, lw=1, label="$h=.5$")
+
+
+    plt.legend()
+    plt.savefig("stabilite.pdf")
+\end{pycode}
+
+\begin{frame}{Étude d'un système linéaire quand $t \rightarrow \infty$}
+    \begin{figure}
+        \pgfimage[width=.7\textwidth]{stabilite.pdf}
+        \caption{$\lambda=-1$ convergence lorsque $h<2$}
+    \end{figure}
+\end{frame}
+
+\begin{pycode}
+    f = lambda t: np.sqrt(t)
+
+    plt.clf()
+    fig, ax = plt.subplots()
+    ax.set_ylim([0,2])
+
+    ax.bar(0.75, height=f(1), width=.5, alpha=0.3)
+
+    te = np.arange(0.0, 2.0, 0.1)
+    ax.plot(te, f(te), lw=3)
+
+    ax.text(.8, f(1) + 0.1 , '$f(to+h)$')
+
+    ax.set_xticks((0.5, 1))
+    ax.set_xticklabels(('$t_0$', '$t_0+h$'))
+    fig.savefig("rectangles2.pdf")
+\end{pycode}
+
+\section{Méthode d'Euler implicite}
+
+\begin{frame}{Euler implicite}
+    Plutôt que en $t_0$, on considère le rectangle en $ft_0+h$.
+    \vspace{-.25cm}
+    \begin{figure}
+        \pgfimage[width=.7\textwidth]{rectangles2.pdf}
+    \end{figure}
+    \vspace{-.5cm}
+    \begin{align*}
+        y(t_0+h) & =  y(t_0) + \int_{t_0}^{t_0+h} f(t,y(t)) dt \\
+        y(t_0+h) & \simeq  y(t_0) + f(t_0 + h).h               \\
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Euler implicite}
+    \[ \widetilde{y}_{n+1} = \widetilde{y}_n + f(\widetilde{y}_{n+1}).h \]
+    \begin{itemize}
+        \item Cette méthode est \emph{implicite} car il faut résoudre l'équation d'inconnue $\widetilde{y}_{n+1}$.
+        \item Plus coûteuse en calcul ! Pour $f$ quelconque besoin d'un algorithme itératif comme Newton-Rhapson pour résoudre l'équation.
+        \item Mais parfois plus stable que la version \emph{explicite}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Euler implicite sur le système linéaire pour $t \rightarrow \infty$}
+    Pour $\lambda < 0$,  $y'=\lambda y,\; y(0) = y_0 = 1$
+    \vfill
+    \begin{align*}
+        \widetilde{y}_{n+1} = & \widetilde{y}_n + h\lambda\widetilde{y}_{n+1} \\
+        \widetilde{y}_{n} =   & (1-\lambda h)\widetilde{y}_{n+1}              \\
+        \widetilde{y}_{n+1} = & \left(\frac{1}{1-\lambda h} \right)^n y_0     \\
+    \end{align*}
+
+    $\lambda h > 0 \Rightarrow 1-\lambda h > 1$ donc euler implicite converge lorsque $t \rightarrow \infty$ pour toute valeur de $h$.
+\end{frame}
+
+\begin{pycode}
+
+    def implicite(h,n):
+        s, y, t = [], 1.0, 0.0
+        for i in range(n):
+            y = (1.0/(1.0+h))*y
+            t = t + h
+            s.append((t, y))
+        return s
+
+    plt.clf()
+
+    t = 0.0
+    y = 1.0
+    plt.plot(t,y, "or")
+
+    plt.ylim(-0.1,1.1)
+    plt.xlim(0,30)
+
+    te = np.arange(0.0, 30.0, 0.1)
+    plt.plot(te, np.exp(-te), '--', lw=3)
+
+    ts, ys = zip(*implicite(2, 30))
+    plt.plot(ts, ys, lw=1, label="$h=2$")
+
+    ts, ys = zip(*implicite(1.8, 30))
+    plt.plot(ts, ys, lw=1, label="$h=1.8$")
+
+    ts, ys = zip(*implicite(1.5, 30))
+    plt.plot(ts, ys, lw=1, label="$h=1.5$")
+
+    ts, ys = zip(*implicite(.5, 30))
+    plt.plot(ts, ys, lw=1, label="$h=.5$")
+
+    plt.legend()
+    plt.savefig("stabilite2.pdf")
+\end{pycode}
+
+\begin{frame}{Étude d'un système linéaire quand $t \rightarrow \infty$ (Euler implicite)}
+    \begin{figure}
+        \pgfimage[width=.7\textwidth]{stabilite2.pdf}
+        \caption{$\lambda=-1$ convergence pour tout $h$}
+    \end{figure}
+\end{frame}
+
+\section{Références}
+
+\begin{frame}{Références}
+    \begin{itemize}
+        \item Simulation intéractive: \newline {\footnotesize \url{https://mathlets.org/mathlets/eulers-method/}}
+    \end{itemize}
+\end{frame}
+
+\end{document}
