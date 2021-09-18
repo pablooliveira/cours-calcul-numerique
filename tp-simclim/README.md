@@ -1,4 +1,5 @@
-# Calcul Numérique TD1: Simulation d'un modèle climatique simple
+# TD1: Simulation d'un modèle climatique simple
+_Calcul Numérique, M1 CHPS, 2021-2022 Pablo Oliveira [<pablo.oliveira@uvsq.fr>]_
 
 ## Partie A: Preuve de la convergence de la méthode d'Euler explicite
 
@@ -174,4 +175,4 @@ Pour cette partie on va garder la concentration en dioxyde de carbone fixe à sa
 
 6. À l'aide des éléments vus en cours expliquez le profil de la courbe. Pourquoi l'erreur diminue de 16 à 1024 itérations ? Pourquoi l'erreur augmente de 1024 à 65536 itérations ? Les variations semblent linéaires, est-ce que la théorie explique ce résultat ?
 
-![Évolution de l'erreur numérique](images/erreur_numerique.png)
+![Évolution de l'erreur numérique](images/erreur_numerique.png){ width=400px }
