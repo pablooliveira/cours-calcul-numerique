@@ -1,7 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 
-#define real float
+#define real double
 
 // Solar constant W / m ^ 2
 #define S0 1370

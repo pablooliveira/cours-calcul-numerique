@@ -1,4 +1,4 @@
-# Calcul Numérique TD1: Simulation d'un modèle climatique simple
+ # Calcul Numérique TD1: Simulation d'un modèle climatique simple
 
 ## Partie A: Preuve de la convergence de la méthode d'Euler explicite
 
@@ -132,4 +132,47 @@ Nous souhaitons prédire l'évolution de la température avec le modèle précé
 
 4. Réaliser une simulation sur 100 ans (donc de 2007 à 2107). Utilisez un logiciel de tracé (comme par exemple `gnuplot`) pour tracer la courbe de températures obtenues.
 
+Si vous utilisez gnuplot un script `plot-simulation.gp` est inclu.
+Il attends un fichier `output.dat` avec deux colonnes séparées par une espace, la première colonne est l'année et la deuxième la température. Vous pouvez afficher le tracé avec la commande:
+
+```bash
+$ gnuplot plot-simulation.gp
+```
+
+
 ### Validité du modèle et discussion
+
+Le GIEC (Groupe d'experts intergouvernemental sur l'évolution du climat) réunit des scientifiques en sciences du climat et de nombreuses autres disciplines qui depuis trente ans maintenant étudient et produisent des rapports sur l'évolution du climat. 
+
+Pour réduire le réchauffement climatique le levier d'action le plus direct est la réduction des emissions de $CO{_2}$ anthropiques.
+Le GIEC étudie plusieurs scénarios, nommés RCP (_Representative Concentration Pathways_), d'évolution de la concentration de $CO{_2}$. La figure gauche ci-dessous trace le profil des quatre RCP considérés.  La figure à droite capture les prédictions du GIEC pour ces différents scénarios sur l'élévation de la température.
+
+![Scénarios RCP et prédictions du GIEC](images/giec_predictions.png)
+
+Dans cette partie nous allons comparer notre modèle simple avec les projections du GIEC qui se basent sur des simulations bien plus complexes.
+
+1. Modifiez votre programme pour pouvoir faire varier la concentration de dioxyde de carbone en fonction de $t$. Vous pouvez, par exemple, considérer un taux de variation constant par année. 
+2. Tracez les courbes de température pour des scénario proche de RCP6.0 et RCP2.6.
+3. Comparez les résultats obtenus avec ceux du GIEC. Commentez ?
+4. Lisez la FAQ12.1 « Why are so many models and scenarios used to project climate change?» en page 1036 du [rapport du groupe 1AR5 DU GIEC de 2018](https://www.ipcc.ch/site/assets/uploads/2018/02/WG1AR5_Chapter12_FINAL.pdf). Discuter les limites de notre modèle à la lumière de cette lecture. Donner des exemples de phénomènes physiques qui ne sont pas pris en compte.
+
+### Erreurs numériques du modèle
+
+Pour cette partie on va garder la concentration en dioxyde de carbone fixe à sa valeur initiale en 2007.
+
+1. Simuler la température en 2107 avec un 1000 itérations et affichez l'ensemble des chiffres du résultat en double précision. Garder la valeur obtenue qui sera utilisée comme référence pour la suite.
+
+2. Changer la definition de `real` de manière à utiliser la simple précision lors des calculs.
+
+3. Implémenter une fonction `errors()` qui execute la simulation pour un nombre d'itérations croissant de manière exponentielle: 16,32,64,128, ..., 65536. Lors de ces exécutions vous n'afficherez pas les valeurs au fur à mesure de la simulation.
+
+4. Modifier `errors()` de manière à afficher l'erreur obtenue en fin de simulation pour chacune des exécutions. L'erreur numérique sera calculée par rapport à la valeur de référence obtenue en B.1.
+
+5. Tracer la courbe d'erreur en fonction du nombre d'itérations. Utilisez une échelle logarithmique en abscisses et ordonnées. 
+Dans `gnuplot` vous pouvez utiliser la commande `set logscale xy 2`.
+
+Vous devriez obtenir une courbe semblable à la figure ci-dessous.
+
+![Évolution de l'erreur numérique](images/erreur_numerique.png)
+
+6. À l'aide des éléments vus en cours expliquez le profil de la courbe. Pourquoi l'erreur diminue de 16 à 1024 itérations ? Pourquoi l'erreur augmente de 1024 à 65536 itérations ? Les variations semblent linéaires, est-ce que la théorie explique ce résultat ?
