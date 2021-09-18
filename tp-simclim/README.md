@@ -153,7 +153,7 @@ Le GIEC étudie plusieurs scénarios, nommés RCP (_Representative Concentration
 Dans cette partie nous allons comparer notre modèle simple avec les projections du GIEC qui se basent sur des simulations bien plus complexes.
 
 1. Modifiez votre programme pour pouvoir faire varier la concentration de dioxyde de carbone en fonction de $t$. Vous pouvez, par exemple, considérer un taux de variation constant par année.
-2. Tracez les courbes de température pour des scénario proche de RCP6.0 et RCP2.6.
+2. Tracez les courbes de température pour des scénarios proche de RCP6.0 et RCP2.6.
 3. Comparez les résultats obtenus avec ceux du GIEC. Commentez ?
 4. Lisez la FAQ12.1 « Why are so many models and scenarios used to project climate change?» en page 1036 du [rapport du groupe 1AR5 DU GIEC de 2018](https://www.ipcc.ch/site/assets/uploads/2018/02/WG1AR5_Chapter12_FINAL.pdf). Discuter les limites de notre modèle à la lumière de cette lecture. Donner des exemples de phénomènes physiques qui ne sont pas pris en compte.
 
