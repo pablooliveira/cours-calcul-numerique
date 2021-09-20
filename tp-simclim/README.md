@@ -93,7 +93,7 @@ $$P_{out} = (1-G(t, T))\sigma T^4$$
 
 #### Calcul de $G(t,T)$
 
- $G(t)$ dépends de la quantité de gaz à effet de serre dans l'atmosphère à un instant $t$. Ici pour simplifier, on s'intéressera uniquement aux deux gaz à effet de serre ayant l'effet le plus important: la vapeur d'eau et au dioxyde de carbone (CO$_2$).
+ $G(t, T)$ dépends de la quantité de gaz à effet de serre dans l'atmosphère à un instant $t$. Ici pour simplifier, on s'intéressera uniquement aux deux gaz à effet de serre ayant l'effet le plus important: la vapeur d'eau et au dioxyde de carbone (CO$_2$).
 
  Le dioxyde de carbone présent dans l'atmosphère peut être d'origine naturel (activité volcanique, géothermique, incendies naturels, etc.) ou d'origine anthropique, c'est à dire produit par l'activité humaine. Depuis plusieurs décennies, les émissions anthropiques sont en forte croissance et responsables de la crise climatique actuelle.
 
@@ -101,7 +101,7 @@ La quantité de vapeur présente dans l'atmosphère dépends de la température,
 
 Dans ce TP nous modéliserons $G$ avec un modèle linéaire qui dépend de la concentration en CO$_{2}$ exprimée en ppm et de la température $T$,
 
- $$ G(t,T) = 0.0033507 \times T + 0.000032099 \times C_{CO_2} - 0.56159 $$
+ $$ G(t,T) = 0.0033507 \times T + 0.000032099 \times C_{CO_2}(t) - 0.56159 $$
 
 Ce modèle linéaire est une approximation du modèle plus complexe décrit dans le  [modèle SimClimat](https://eduscol.education.fr/media/3623/download).
 
