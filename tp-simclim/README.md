@@ -108,7 +108,7 @@ Ce modèle linéaire est une approximation du modèle plus complexe décrit dans
 #### Variation de la température
 
 Dans notre modèle la température varie en fonction du bilan radiatif
-$$dT = (P_{out} - P_{in}) \times \frac{dt}{100}$$
+$$dT = (P_{in} - P_{out}) \times \frac{dt}{100}$$
 où $dt$ est une variation du temps $t$ exprimé en années.
 
 La constante 100 modélise l'inertie de changement de température.
