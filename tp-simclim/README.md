@@ -103,7 +103,7 @@ Dans ce TP nous modéliserons $G$ avec un modèle linéaire qui dépend de la co
 
  $$ G(t,T) = 0.0033507 \times T + 0.000032099 \times C_{CO_2}(t) - 0.56159 $$
 
-Ce modèle linéaire est une approximation du modèle plus complexe décrit dans le  [modèle SimClimat](https://eduscol.education.fr/media/3623/download).
+Ce modèle linéaire est une approximation du modèle plus complexe décrit dans le  [modèle SimClimat](https://www.lmd.jussieu.fr/~crlmd/simclimat/documentation_2019/node7.html).
 
 #### Variation de la température
 
