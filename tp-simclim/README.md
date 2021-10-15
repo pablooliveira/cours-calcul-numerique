@@ -34,24 +34,29 @@ $$
 |e_{n+1}| = |y(t_{n+1}) - \widetilde{y}_{n+1}|
 $$
 
-1. Montrer que $|e_{n+1}| \le (1+kh)|e_n| + mh^2$ où $k > 0$ et $m \in \mathbb{R}$ sont deux constantes.
+1. Montrer que $|e_{n+1}| \le (1+kh)|e_n| + mh^2$ où $k > 0$ et $m > 0$ sont constantes.
 
    _Conseils:_
-   - Utiliser un développement de Taylor à l'ordre 2 de $y$.
-   - Utiliser le fait que $f$ est $k$-Lipschitzienne sur la deuxième variable.
+   - Utiliser un développement de Taylor-Lagrange à l'ordre 2 de $y$
+   - Utiliser le fait que $f$ est $k$-Lipschitzienne sur la deuxième variable
 
-2. Montrer que $|e_n| \le (1+kh)^n(|e_0| + \frac{m}{k}h)$
+2. Poser $u_n = (1+kh)^{-n}e_n$ et montrer que $\sum_{i=0}^{n-1} |u_{i+1}| - |u_{i}| \le \frac{m}{k}h$.
 
    _Conseils:_
-   - Sommer télescopiquement $|e_{n+1}| - |e_{n}|$
-   - Utiliser la majoration montrée dans la question A.1
+   - Utiliser la majoration montrée dans la question précédente
+   - Rappel: $\sum_{i=0}^{n-1}a^i = \frac{a^n-1}{a-1}$ pour $a$ constante
 
-3. Montrer que $|e_n| \le e^{khn}(|e_0|+\frac{m}{k}h)$
+3. Montrer que $|e_n| \le (1+kh)^n(|e_0| + \frac{m}{k}h)$
+
+   _Conseils:_
+   - Sommer télescopiquement $\sum_{i=0}^{n-1}|u_{i+1}| - |u_{i}|$
+
+4. Montrer que $|e_n| \le e^{khn}(|e_0|+\frac{m}{k}h)$
 
    _Conseils:_
    - Montrer que $(1+kh) \le e^{kh}$
 
-4. Montrez que $\forall n,\;\lim_{h \rightarrow 0} |e_n| = 0$ lorsque $\widetilde{y}_0 = y(t_0)$. Que pouvez vous dire sur la vitesse de convergence ?
+5. Montrez que $\forall n,\;\lim_{h \rightarrow 0} |e_n| = 0$ lorsque $\widetilde{y}_0 = y(t_0)$. Que pouvez vous dire sur la vitesse de convergence ?
 
 ## Partie B: Un modèle climatique simple
 
