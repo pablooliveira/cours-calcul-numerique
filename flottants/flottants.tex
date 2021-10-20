@@ -104,9 +104,9 @@
     \begin{itemize}
         \item Le plus petit double normal (en valeur absolue): $ m = 1.0 \times 2^{-1022} $
         \item $\frac{m}{4}$ est non représentable car son exposant est trop petit; c'est un \emph{underflow}.
-        \item Une option serait de retourner la valeur $0$ à la place. our ne pas
+        \item Retourner la valeur $0$ à la place ? Pour ne pas
               perdre complètement la précision on utilise des dénormaux.
-        \item On encode $ \frac{m}{4} = 0.01 \times 2^{-1022} $. Pour les dénormaux le bit implicite est remplacé par un zéro. Donc ici on perds deux bits de précision dans la mantisse.
+        \item On encode $ \frac{m}{4} = 0.01 \times 2^{-1022} $. Pour les dénormaux le bit implicite est remplacé par un zéro. Ici on perds deux bits de précision dans la mantisse.
     \end{itemize}
 \end{frame}
 
@@ -222,7 +222,7 @@
 \end{frame}
 \begin{frame}{Quelques techniques pour atténuer les problèmes}
     \begin{itemize}
-        \item Réecrire une expression pour éviter des cancellations catastrophiques ou absorptions.
+        \item Réécrire une expression pour éviter des cancellations catastrophiques ou absorptions.
               \[ \frac{\sqrt{x^2+1}-1}{x} = \frac{x}{\sqrt{x^2+1}+1} \qquad \text {cancellation pour } x \rightarrow 0 \]
         \item Remplacer une formule par une approximation qui se comporte correctement.
         \item Utiliser les bons facteurs d'échelle pour éviter les dépassements.
@@ -260,11 +260,10 @@
         Erreur avant $= \widetilde{y} - y$
     }
     \only<2>{
-        \begin{itemize}
-            \item Erreur arrière: on voit $\widetilde{y}$ comme l'image d'une entrée perturbée.
-            \item $\widetilde{y} = f(\widetilde{x}) = f(x+\underbrace{\delta x}_{\textrm{err. arrière}})$
-        \end{itemize}
-
+    \begin{itemize}
+        \item Erreur arrière: on voit $\widetilde{y}$ comme l'image d'une entrée perturbée.
+    \end{itemize}
+    $$\widetilde{y} = f(\widetilde{x}) = f(x+\underbrace{\delta x}_{\textrm{err. arrière}})$$
     }
 
 \end{frame}
@@ -286,14 +285,14 @@
         \widetilde{S}_k                            & = (\widetilde{S}_{k-1}+x_k)(1+\delta_k) \qquad |\delta_k| \le u                                 \\
         \widetilde{S}_n                            & = \sum_{i=1}^n x_i \prod_{k=i}^{n}(1+\delta_k) \qquad \text { récursivement avec } \delta_1 = 0 \\
         \left| \prod_{k=1}^n{(1+\delta_k)} \right| & = 1 + \sum_{k=1}^n{|\delta_k|} + O(u^2) \le 1 + n.u + O(u^2)                                    \\
-        \left|S_n - \widetilde{S}_k \right|        & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                              \\
+        \left|S_n - \widetilde{S}_n \right|        & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                              \\
     \end{align*}
 \end{frame}
 
 \begin{frame}{Erreur relative et Conditionnement de la somme}
     \begin{align*}
-        \left|S_n - \widetilde{S}_k \right|               & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                                                           \\
-        \frac{\left|S_n - \widetilde{S}_k \right|}{|S_n|} & \le   nu \underbrace{\left[\frac{\sum_{i=1}^n{|x_i|}}{ \left|\sum_{i=1}^n{x_i} \right|} \right]}_{Conditionnement}  + O(u^2)
+        \left|S_n - \widetilde{S}_n \right|               & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                                                           \\
+        \frac{\left|S_n - \widetilde{S}_n \right|}{|S_n|} & \le   nu \underbrace{\left[\frac{\sum_{i=1}^n{|x_i|}}{ \left|\sum_{i=1}^n{x_i} \right|} \right]}_{Conditionnement}  + O(u^2)
     \end{align*}
 
     \begin{itemize}
