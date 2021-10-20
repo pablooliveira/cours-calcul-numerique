@@ -62,7 +62,7 @@ $$
 
 Dans cette partie nous souhaitons simuler le réchauffement climatique par un modèle simple de l'effet de serre.
 
-Le modèle utilisé est une simplification du modèle utilisé dans les logiciel [SimClimat](https://www.lmd.jussieu.fr/~crlmd/simclimat/) développé par Camille Risi et [py-simclimat](https://gitlab.in2p3.fr/alexis.tantet/py-simclimat) développé par Alexis Tantet.
+Le modèle utilisé est une simplification du modèle utilisé dans les logiciels [SimClimat](https://www.lmd.jussieu.fr/~crlmd/simclimat/) développé par Camille Risi et [py-simclimat](https://gitlab.in2p3.fr/alexis.tantet/py-simclimat) développé par Alexis Tantet.
 
 ### Description du modèle
 
