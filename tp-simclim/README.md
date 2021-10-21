@@ -25,7 +25,7 @@ $$
 Soit $h > 0$ le pas d'intégration, la méthode d'Euler explicite s'exprime récursivement:
 
 $$
-\widetilde{y}_{n+1} = \widetilde{y}_n + hf(t_n, \widetilde{y}_n) \qquad t_n = nh
+\widetilde{y}_{n+1} = \widetilde{y}_n + hf(t_n, \widetilde{y}_n) \qquad t_n = t_0 + nh
 $$
 
 On s'intéresse à l'erreur locale à l'étape $n+1$,
