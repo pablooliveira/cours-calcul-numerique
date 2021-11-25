@@ -166,7 +166,7 @@ Dans cette partie nous allons comparer notre modèle simple avec les projections
 
 Pour cette partie on va garder la concentration en dioxyde de carbone fixe à sa valeur initiale en 2007.
 
-1. Simuler la température en 2107 avec un 1000 itérations et affichez l'ensemble des chiffres du résultat en double précision. Garder la valeur obtenue qui sera utilisée comme référence pour la suite.
+1. Simuler la température en 2107 avec 5000 itérations et affichez l'ensemble des chiffres du résultat en double précision. Garder la valeur obtenue qui sera utilisée comme référence pour la suite.
 
 2. Changer la définition de `real` de manière à utiliser la simple précision lors des calculs.
 
