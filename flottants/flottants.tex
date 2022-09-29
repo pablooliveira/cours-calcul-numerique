@@ -284,7 +284,7 @@
     \begin{align*}
         \widetilde{S}_k                            & = (\widetilde{S}_{k-1}+x_k)(1+\delta_k) \qquad |\delta_k| \le u                                 \\
         \widetilde{S}_n                            & = \sum_{i=1}^n x_i \prod_{k=i}^{n}(1+\delta_k) \qquad \text { récursivement avec } \delta_1 = 0 \\
-        \left| \prod_{k=1}^n{(1+\delta_k)} \right| & = 1 + \sum_{k=1}^n{|\delta_k|} + O(u^2) \le 1 + n.u + O(u^2)                                    \\
+        \left| \prod_{k=1}^n{(1+\delta_k)} \right| & \le 1 + \sum_{k=1}^n{|\delta_k|} + O(u^2) \le 1 + n.u + O(u^2)                                  \\
         \left|S_n - \widetilde{S}_n \right|        & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                              \\
     \end{align*}
 \end{frame}
