@@ -35,7 +35,7 @@
 \title{Intégration numérique (Introduction)}
 \author{Pablo de Oliveira (pablo.oliveira@uvsq.fr)}
 \institute{M1 Calcul Haute Performance Simulation, Calcul Numérique}
-\date{2021-2022}
+\date{2022-2023}
 
 \begin{document}
 \maketitle
@@ -95,6 +95,8 @@
     t = 0.0
     y = 1.0
     plt.plot(t,y, "or")
+    plt.xlabel("t")
+    plt.ylabel("y")
     plt.savefig("vecteur1.pdf")
 
     plt.ylim(0,5)
@@ -133,8 +135,9 @@
 
 \begin{frame}{Intégration numérique}
     \begin{align*}
-        \int_t^{t+h} y'(t) dt = y(t+h) - y(t)     &                                     \\
-        y(t+h) = y(t) + \int_t^{t+h} f(t,y(t)) dt & \qquad \text{ car } y' = f(t, y(t)) \\
+        \int_t^{t+h} y'(t) dt & = y(t+h) - y(t)                    &                                     \\
+        y(t+h)                & = y(t) + \int_t^{t+h} y'(t) dt     &                                     \\
+        y(t+h)                & = y(t) + \int_t^{t+h} f(t,y(t)) dt & \qquad \text{ car } y' = f(t, y(t)) \\
     \end{align*}
 \end{frame}
 
@@ -282,7 +285,11 @@
 \end{frame}
 
 \begin{frame}{Erreur locale de troncature (développement limité)}
-    \[y(t_0 + h) = \underbrace{y(t_0) + h.f(t_0, y_0)}_{\text{Méthode d'Euler}} + \underbrace{\frac{h^2}{2}.f'(t_0, y_0) + \frac{h^3}{6}.f''(t_0, y_0) + O(h^3)}_{\text{Erreur de troncature}}\]
+    Avec un développement de Taylor:
+    \begin{align*}
+        y(t_0 + h) & = y(t_0) + h.y'(t_0) + \frac{h^2}{2}.y''(t_0) + \frac{h^3}{6}.y'''(t_0) + O(h^3)                                                                                              \\
+                   & = \underbrace{y(t_0) + h.f(t_0, y_0)}_{\text{Méthode d'Euler}} + \underbrace{\frac{h^2}{2}.f'(t_0, y_0) + \frac{h^3}{6}.f''(t_0, y_0) + O(h^3)}_{\text{Erreur de troncature}}
+    \end{align*}
 \end{frame}
 
 \begin{frame}{Convergence de la méthode}
@@ -315,12 +322,12 @@
     \end{itemize}
     \vfill
     \begin{align*}
-        \widetilde{y}_{n+1} = & \widetilde{y}_n + h\lambda\widetilde{y}_n \\
-        \widetilde{y}_{n+1} = & (1+\lambda h)\widetilde{y}_n              \\
-        \widetilde{y}_{n+1} = & (1+\lambda h)^ny_0                        \\
+        \widetilde{y}_{n+1} = & \widetilde{y}_n + h\lambda\widetilde{y}_n                     \\
+        \widetilde{y}_{n+1} = & (1+\lambda h)\widetilde{y}_n \quad \text{(suite géométrique)} \\
+        \widetilde{y}_{n+1} = & (1+\lambda h)^ny_0                                            \\
     \end{align*}
 
-    Converge si $|1+\lambda h| < 1 \Rightarrow h < -\frac{2}{\lambda}$.
+    Converge si $|1+\lambda h| < 1$, donc pour $h < -\frac{2}{\lambda}$.
 \end{frame}
 
 \begin{pycode}
@@ -330,6 +337,8 @@
     y = 1.0
     plt.plot(t,y, "or")
 
+    plt.xlabel("t")
+    plt.ylabel("y")
     plt.ylim(-1.1,1.1)
     plt.xlim(0,30)
 
@@ -356,7 +365,7 @@
 \begin{frame}{Étude d'un système linéaire quand $t \rightarrow \infty$}
     \begin{figure}
         \pgfimage[width=.7\textwidth]{stabilite.pdf}
-        \caption{$\lambda=-1$ convergence lorsque $h<2$}
+        \caption{Pour $\lambda=-1$ on obtient $y'=-y$ qui converge pour $h<2$}
     \end{figure}
 \end{frame}
 
@@ -382,7 +391,7 @@
 \section{Méthode d'Euler implicite}
 
 \begin{frame}{Euler implicite}
-    Plutôt que en $t_0$, on considère le rectangle en $ft_0+h$.
+    Plutôt que en $t_0$, on considère le rectangle en $f(t_0+h)$.
     \vspace{-.25cm}
     \begin{figure}
         \pgfimage[width=.7\textwidth]{rectangles2.pdf}
@@ -398,7 +407,6 @@
     \[ \widetilde{y}_{n+1} = \widetilde{y}_n + f(\widetilde{y}_{n+1}).h \]
     \begin{itemize}
         \item Cette méthode est \emph{implicite} car il faut résoudre l'équation d'inconnue $\widetilde{y}_{n+1}$.
-        \item Plus couteuse en calcul ! Pour $f$ quelconque besoin d'un algorithme itératif comme Newton-Rhapson pour résoudre l'équation.
         \item Mais parfois plus stable que la version \emph{explicite}.
     \end{itemize}
 \end{frame}
@@ -407,12 +415,14 @@
     Pour $\lambda < 0$,  $y'=\lambda y,\; y(0) = y_0 = 1$
     \vfill
     \begin{align*}
-        \widetilde{y}_{n+1} = & \widetilde{y}_n + h\lambda\widetilde{y}_{n+1} \\
-        \widetilde{y}_{n} =   & (1-\lambda h)\widetilde{y}_{n+1}              \\
-        \widetilde{y}_{n+1} = & \left(\frac{1}{1-\lambda h} \right)^n y_0     \\
+        \widetilde{y}_{n+1} & =  \widetilde{y}_n + f(\widetilde{y}_{n+1}).h     \\
+        \widetilde{y}_{n+1} & =  \widetilde{y}_n + \lambda h\widetilde{y}_{n+1} \\
+        \widetilde{y}_{n+1} & =    (\frac{1}{1-\lambda h})\widetilde{y}_{n}     \\
+        \widetilde{y}_{n+1} & =  \left(\frac{1}{1-\lambda h} \right)^n y_0
     \end{align*}
 
-    $\lambda h > 0 \Rightarrow 1-\lambda h > 1$ donc euler implicite converge lorsque $t \rightarrow \infty$ pour toute valeur de $h$.
+    $-\lambda h > 0 \Rightarrow 1-\lambda h > 1 \Rightarrow \frac{1}{1-\lambda h} < 1$ \\
+    Euler implicite converge lorsque $t \rightarrow \infty$ pour toute valeur de $h$.
 \end{frame}
 
 \begin{pycode}
@@ -460,6 +470,13 @@
     \end{figure}
 \end{frame}
 
+\begin{frame}{Euler implicite pour $f$ quelconque }
+    \[ \widetilde{y}_{n+1} = \widetilde{y}_n + f(\widetilde{y}_{n+1}).h \]
+    \begin{itemize}
+        \item Il faut résoudre l'équation d'inconnue $\widetilde{y}_{n+1}$ à chaque étape.
+        \item Plus couteuse en calcul ! Pour $f$ quelconque besoin d'un algorithme itératif comme Newton-Rhapson pour résoudre l'équation.
+    \end{itemize}
+\end{frame}
 \section{Références}
 
 \begin{frame}{Références}

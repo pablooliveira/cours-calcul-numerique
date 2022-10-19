@@ -14,7 +14,7 @@
 \title{Arithmétique à virgule flottante}
 \author{Pablo de Oliveira (pablo.oliveira@uvsq.fr)}
 \institute{M1 Calcul Haute Performance Simulation, Calcul Numérique}
-\date{2021-2022}
+\date{2022-2023}
 
 \begin{document}
 \maketitle
@@ -83,7 +83,7 @@
 \end{frame}
 
 \begin{frame}{Encodage de l'exposant}
-    L'exposant est codé avec biais, il faut soustraire 1023 ($ = 2^{q-1}$) à la valeur binaire $E=e_1\ldots e_q$
+    L'exposant est codé avec biais, il faut soustraire 1023 ($ = 2^{q-1}-1$) à la valeur binaire $E=e_1\ldots e_q$
     \begin{itemize}
         \item pour l'exposant $2^1$, on stockera $E = 1024$ en binaire
         \item pour l'exposant le plus petit $2^{-1022}$, on stockera $E = 1$ en binaire
