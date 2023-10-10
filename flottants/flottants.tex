@@ -14,7 +14,7 @@
 \title{Arithmétique à virgule flottante}
 \author{Pablo de Oliveira (pablo.oliveira@uvsq.fr)}
 \institute{M1 Calcul Haute Performance Simulation, Calcul Numérique}
-\date{2022-2023}
+\date{2023-2024}
 
 \begin{document}
 \maketitle
@@ -282,17 +282,17 @@
 
 \begin{frame}{Erreur en avant (Wilkinson, Higham)}
     \begin{align*}
-        \widetilde{S}_k                            & = (\widetilde{S}_{k-1}+x_k)(1+\delta_k) \qquad |\delta_k| \le u                                 \\
-        \widetilde{S}_n                            & = \sum_{i=1}^n x_i \prod_{k=i}^{n}(1+\delta_k) \qquad \text { récursivement avec } \delta_1 = 0 \\
-        \left| \prod_{k=1}^n{(1+\delta_k)} \right| & \le 1 + \sum_{k=1}^n{|\delta_k|} + O(u^2) \le 1 + n.u + O(u^2)                                  \\
-        \left|S_n - \widetilde{S}_n \right|        & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                              \\
+        \widetilde{S}_k                            & = (\widetilde{S}_{k-1}+x_k)(1+\delta_k) \qquad |\delta_k| \le u,\, \delta_1 = 0,\, \widetilde{S}_0 = 0 \\
+        \widetilde{S}_n                            & = \sum_{i=1}^n x_i \prod_{k=i}^{n}(1+\delta_k) \, \text { (récursivement) }  \\
+        \left| \prod_{k=1}^n{(1+\delta_k)} - 1 \right| & \le \sum_{k=1}^n{|\delta_k|} + O(u^2) \le 1 + nu + O(u^2)                                  \\
+        \left|\widetilde{S}_n - S_n \right|        & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                              \\
     \end{align*}
 \end{frame}
 
 \begin{frame}{Erreur relative et Conditionnement de la somme}
     \begin{align*}
-        \left|S_n - \widetilde{S}_n \right|               & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                                                           \\
-        \frac{\left|S_n - \widetilde{S}_n \right|}{|S_n|} & \le   nu \underbrace{\left[\frac{\sum_{i=1}^n{|x_i|}}{ \left|\sum_{i=1}^n{x_i} \right|} \right]}_{Conditionnement}  + O(u^2)
+        \left|\widetilde{S}_n - S_n \right|               & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                                                           \\
+        \frac{\left|\widetilde{S}_n - S_n \right|}{|S_n|} & \le   nu \underbrace{\left[\frac{\sum_{i=1}^n{|x_i|}}{ \left|\sum_{i=1}^n{x_i} \right|} \right]}_{Conditionnement}  + O(u^2)
     \end{align*}
 
     \begin{itemize}
