@@ -59,11 +59,28 @@
     \end{center}
     \begin{block}{Exemple}
         \begin{align*}
-            (1.1001 \times 2^0)_2 =    & (1 \times 2^0 + 1 \times 2^{-1} + 0 \times 2^{-2} + 0 \times 2^{-3} + 1 \times 2^{-4} )_{10} \\
-            =                          & (1 + 0.5 + 0.125)_{10} = 1.625_{10}                                                          \\                                                \\
-            (1.0001 \times 2^{4})_2 = & (1 \times 2^{4} + 1 \times 2^0)_{10} = 17.0_{10}                                        \\
+            (1.1001 \times 2^0)_2 =   & (1 \times 2^0 + 1 \times 2^{-1} + 0 \times 2^{-2} + 0 \times 2^{-3} + 1 \times 2^{-4} )_{10} \\
+            =                         & (1 + 0.5 + 0.125)_{10} = 1.625_{10}                                                          \\                                                \\
+            (1.1110 \times 2^{3})_2 = & (1 \times 2^{3} + 1 \times 2^{2} + 1 \times 2^{1} + 1 \times 2^0)_{10} = 15.0_{10}           \\
         \end{align*}
     \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Somme de deux flottants (example)}
+    \begin{verbatim}
+     1.1110               * 2^3
+ +   1.1001               * 2^0
+                <=>
+     1.1110000            * 2^3
+ +   0.0011001            * 2^3  (même exposant)
+                                  ---> 3 bits
+ -------------------------------
+    10.0001001            * 2^3
+
+     1.00001001           * 2^4  (renormalisation)
+                                  <--- 1 bit
+     16.625_10
+    \end{verbatim}
 \end{frame}
 
 \begin{frame}{Standard IEEE-754}
@@ -282,10 +299,10 @@
 
 \begin{frame}{Erreur en avant (Wilkinson, Higham)}
     \begin{align*}
-        \widetilde{S}_k                            & = (\widetilde{S}_{k-1}+x_k)(1+\delta_k) \qquad |\delta_k| \le u,\, \delta_1 = 0,\, \widetilde{S}_0 = 0 \\
-        \widetilde{S}_n                            & = \sum_{i=1}^n x_i \prod_{k=i}^{n}(1+\delta_k) \, \text { (récursivement) }  \\
-        \left| \prod_{k=1}^n{(1+\delta_k)} - 1 \right| & \le \sum_{k=1}^n{|\delta_k|} + O(u^2) \le 1 + nu + O(u^2)                                  \\
-        \left|\widetilde{S}_n - S_n \right|        & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                              \\
+        \widetilde{S}_k                                & = (\widetilde{S}_{k-1}+x_k)(1+\delta_k) \qquad |\delta_k| \le u,\, \delta_1 = 0,\, \widetilde{S}_0 = 0 \\
+        \widetilde{S}_n                                & = \sum_{i=1}^n x_i \prod_{k=i}^{n}(1+\delta_k) \, \text { (récursivement) }                            \\
+        \left| \prod_{k=1}^n{(1+\delta_k)} - 1 \right| & \le \sum_{k=1}^n{|\delta_k|} + O(u^2) \le nu + O(u^2)                                                  \\
+        \left|\widetilde{S}_n - S_n \right|            & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                                     \\
     \end{align*}
 \end{frame}
 
