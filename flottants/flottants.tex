@@ -301,7 +301,7 @@
     \begin{align*}
         \widetilde{S}_k                                & = (\widetilde{S}_{k-1}+x_k)(1+\delta_k) \qquad |\delta_k| \le u,\, \delta_1 = 0,\, \widetilde{S}_0 = 0 \\
         \widetilde{S}_n                                & = \sum_{i=1}^n x_i \prod_{k=i}^{n}(1+\delta_k) \, \text { (récursivement) }                            \\
-        \left| \prod_{k=1}^n{(1+\delta_k)} - 1 \right| & \le \sum_{k=1}^n{|\delta_k|} + O(u^2) \le nu + O(u^2)                                                  \\
+        \left| \prod_{k=i}^n{(1+\delta_k)} - 1 \right| & \le \sum_{k=i}^n{|\delta_k|} + O(u^2) \le (n-i+1)u + O(u^2)                                                  \\
         \left|\widetilde{S}_n - S_n \right|            & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                                     \\
     \end{align*}
 \end{frame}
