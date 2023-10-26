@@ -19,7 +19,7 @@ avec $f$ définie sur $\mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$.
 La fonction $f(t, y(t))$ est continue et Lipschitzienne en $y$, c'est à dire
 
 $$
-\forall t,y_1,y_2, \exists k > 0, \qquad |f(t,y_1) - f(t,y_2)| \leq k|y_1-y_2|
+\forall t \exists k > 0 \forall y_1,y_2, \qquad |f(t,y_1) - f(t,y_2)| \leq k|y_1-y_2|
 $$
 
 Soit $h > 0$ le pas d'intégration, la méthode d'Euler explicite s'exprime récursivement:
@@ -129,7 +129,7 @@ La constante 100 modélise l'inertie de changement de température.
 
 Nous souhaitons prédire l'évolution de la température avec le modèle précédent.
 
-1. Montrer que le modèle peut-être intégré sur le temps avec la méthode d'Euler explicite. Écrivez la formule permettant de calculer la température $\widetilde{T}_{n+1}$ à partir de $\widetilde{T}_{n}$.
+1. Montrer que le modèle peut-être intégré sur le temps avec la méthode d'Euler explicite (on admettra que la fonction est lipschitzienne). Écrivez la formule permettant de calculer la température $\widetilde{T}_{n+1}$ à partir de $\widetilde{T}_{n}$.
 
 
 2. Rajouter une fonction `real euler(real t_final, int steps)`. La fonction utilisera un schéma d'Euler explicite pour simuler la température à $t_0+t_{final}$; on choisira le pas d'intégration de manière à effectuer $steps$ itérations avec la formule $h = \frac{t_{final} - t_{0}}{steps}$.
