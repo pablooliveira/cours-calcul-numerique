@@ -1,5 +1,5 @@
 # TD1: Simulation d'un modèle climatique simple
-_Calcul Numérique, M1 CHPS, 2022-2023 Pablo Oliveira [<pablo.oliveira@uvsq.fr>], El-Mehdi El-Arar [<el-mehdi.el-arar@uvsq.fr>].
+_Calcul Numérique, M1 CHPS, 2022-2023 Pablo Oliveira [<pablo.oliveira@uvsq.fr>], El-Mehdi El-Arar [<el-mehdi.el-arar@uvsq.fr>]_
 
 ## Partie A: Preuve de la convergence de la méthode d'Euler explicite
 
