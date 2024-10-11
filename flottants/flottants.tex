@@ -14,7 +14,7 @@
 \title{Arithmétique à virgule flottante}
 \author{Pablo de Oliveira (pablo.oliveira@uvsq.fr)}
 \institute{M1 Calcul Haute Performance Simulation, Calcul Numérique}
-\date{2023-2024}
+\date{2024-2025}
 
 \begin{document}
 \maketitle
@@ -69,15 +69,15 @@
 \begin{frame}[fragile]{Somme de deux flottants (example)}
     \begin{verbatim}
      1.1110               * 2^3
- +   1.1001               * 2^0
+ +   1.1010               * 2^0
                 <=>
      1.1110000            * 2^3
- +   0.0011001            * 2^3  (même exposant)
+ +   0.0011010            * 2^3  (même exposant)
                                   ---> 3 bits
  -------------------------------
-    10.0001001            * 2^3
+    10.0001010            * 2^3
 
-     1.00001001           * 2^4  (renormalisation)
+     1.00001010           * 2^4  (renormalisation)
                                   <--- 1 bit
      16.625_10
     \end{verbatim}
