@@ -301,10 +301,21 @@
     \begin{align*}
         \widetilde{S}_k                                & = (\widetilde{S}_{k-1}+x_k)(1+\delta_k) \qquad |\delta_k| \le u,\, \delta_1 = 0,\, \widetilde{S}_0 = 0 \\
         \widetilde{S}_n                                & = \sum_{i=1}^n x_i \prod_{k=i}^{n}(1+\delta_k) \, \text { (récursivement) }                            \\
-        \left| \prod_{k=i}^n{(1+\delta_k)} - 1 \right| & \le \sum_{k=i}^n{|\delta_k|} + O(u^2) \le (n-i+1)u + O(u^2)                                                  \\
-        \left|\widetilde{S}_n - S_n \right|            & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                                     \\
+        \widetilde{S}_n - S_n                          & = \sum_{i=1}^n x_i \prod_{k=i}^{n}(1+\delta_k) - \sum_{i=1}^n x_i  \\
+                                                       & = \sum_{i=1}^n x_i (\prod_{k=i}^{n}(1+\delta_k) - 1) \\
+        \left|\widetilde{S}_n - S_n \right|            & \le \sum_{i=1}^n |x_i| \left|\prod_{k=i}^{n}(1+\delta_k) - 1 \right|\, \text { (inég. triangulaire) }  \\
     \end{align*}
 \end{frame}
+
+
+\begin{frame}{Erreur en avant (Wilkinson, Higham)}
+    \begin{align*}
+        \left| \prod_{k=i}^n{(1+\delta_k)} - 1 \right| & \le \sum_{k=i}^n{|\delta_k|} + O(u^2) \le (n-i+1)u + O(u^2)                                \\
+        \left|\widetilde{S}_n - S_n \right|            & \le nu\sum_{i=1}^n{|x_i|} + O(u^2)                                                         \\
+    \end{align*}
+\end{frame}
+
+
 
 \begin{frame}{Erreur relative et Conditionnement de la somme}
     \begin{align*}
